@@ -264,7 +264,13 @@ class NAApiClient
         curl_close($ch);
 
         // Split the HTTP response into header and body.
-        list($headers, $body) = explode("\r\n\r\n", $result);
+        $resultArr= explode("\r\n\r\n", $result);
+        
+        //the body should be the last element
+        $body = $resultArr[count($resultArr)-1];
+        
+        //the header response from Netatmo should be the deepest one 
+        $headers = $resultArr[count($resultArr)-2];
         $headers = explode("\r\n", $headers);
         //Only 2XX response are considered as a success
         if(strpos($headers[0], 'HTTP/1.1 2') !== FALSE)
